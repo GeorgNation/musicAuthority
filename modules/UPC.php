@@ -76,7 +76,7 @@ class UPC
 		--$this->number;
 	}
 
-	public function get ()
+	public function __toString ()
 	{
 		return "7" . $this->issuerCode . str_pad ($this->number, 5, "0", STR_PAD_LEFT) . $this->calculateChecksum ("7" . $this->issuerCode . str_pad ($this->number, 5, "0", STR_PAD_LEFT));
 	}
