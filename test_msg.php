@@ -5,12 +5,12 @@ require_once "musicAuthority.php";
 $msg = new MA_Distributor ();
 
 $sender = new Sender_Recipient;
-$sender->id = "LOL-12345";
+$sender->id = "RU-MAUTH-20200912-000006";
 $sender->name = "FreshCompact";
 
 $recipient = new Sender_Recipient;
-$recipient->id = "GENERAL";
-$recipient->name = "l-lacker";
+$recipient->id = "RU-MAUTH-20200912-000005";
+$recipient->name = "musicAuthority Local Example Store";
 
 $msg->sender = $sender;
 $msg->recipient = $recipient;
@@ -18,10 +18,10 @@ $msg->recipient = $recipient;
 $msg->messageType = "OriginalMessage";
 
 $isrcAuthority = new ISRC ("FR", "ESH");
-$isrc = $isrcAuthority->get ();
+$isrc = $isrcAuthority;
 
 $upcAuthority = new UPC (13272);
-$upc = $upcAuthority->get ();
+$upc = $upcAuthority;
 
 print_r ($isrc . PHP_EOL . $upc);
 
