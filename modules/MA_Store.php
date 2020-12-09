@@ -12,20 +12,27 @@ class MA_Store
 		
 		$threads = unserialize (file_get_contents (THREAD_FILE));
 		
-		$files = glob (WORK_DIR . "*.msg", GLOB_NOSORT);
-		foreach ($files as $message)
-		{
-			$messageContent = json_decode (file_get_contents ($message));
-			
-			$threads[$messageContent->messageId] = $messageContent;
-			
-			unlink ($message);
-		}
+		$registry = new MA_Registry;
 		
-		#print_r ($threads);
-		#print_r ($messageContent);
-		#print_r ($message);
-		#print_r ($files);
+		foreach ($registry->localRegistry as $records)
+		{
+		
+			$files = glob (WORK_DIR . "{$records}/*.msg", GLOB_NOSORT);
+			foreach ($files as $message)
+			{
+				$messageContent = json_decode (file_get_contents ($message));
+				
+				print_r ($messageContent->recipient->id);
+				
+				if ($messageContent->recipient->id == RECIPIENT_ID && $messageContent->recipient->name == RECIPIENT_NAME)
+				{
+					$threads[$messageContent->messageId] = $messageContent;
+				}
+				
+				unlink ($message);
+			}
+		
+		}
 		
 		file_put_contents (THREAD_FILE, serialize ($threads));
 		
@@ -34,10 +41,8 @@ class MA_Store
 	public function run ($uploadCallback, $editCallback, $takedownCallback)
 	{
 		$threads = unserialize (file_get_contents (THREAD_FILE));
-		$count = -1;
 		foreach ($threads as $thread)
 		{
-			++$count;
 			if ($thread->messageType == "OriginalMessage" && $thread->releaseList->takeDown == false)
 			{
 				$uploadCallback ($thread);
@@ -48,8 +53,9 @@ class MA_Store
 			}
 			if ($thread->messageType == "EditMessage" && $thread->releaseList->takeDown == true)
 			{
+				$mid = $thread->messageId;
 				$takedownCallback ($thread);
-				$threads[$count] = NULL;
+				unset ($threads[$mid]);
 			}
 		}
 		
