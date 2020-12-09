@@ -5,12 +5,12 @@ require_once "musicAuthority.php";
 $msg = new MA_Distributor ();
 
 $sender = new Sender_Recipient;
-$sender->id = "LOL-12345";
+$sender->id = "RU-MAUTH-20200912-000006";
 $sender->name = "FreshCompact";
 
 $recipient = new Sender_Recipient;
-$recipient->id = "GENERAL";
-$recipient->name = "l-lacker";
+$recipient->id = "RU-MAUTH-20200912-000005";
+$recipient->name = "musicAuthority Local Example Store";
 
 $msg->sender = $sender;
 $msg->recipient = $recipient;
@@ -18,10 +18,10 @@ $msg->recipient = $recipient;
 $msg->messageType = "EditMessage";
 
 $isrcAuthority = new ISRC ("FR", "ESH");
-$isrc = $isrcAuthority->get ();
+$isrc = $isrcAuthority;
 
 $upcAuthority = new UPC (13272);
-$upc = $upcAuthority->get ();
+$upc = $upcAuthority;
 
 print_r ($isrc . PHP_EOL . $upc);
 
@@ -67,4 +67,4 @@ $release->takeDown = true;
 
 $msg->album = $release;
 
-file_put_contents ("msg_takedown.msg", $msg->generateMessage ("52254656650eaf486a2d2d3abf02cf4ff235893e7017f25da80a521177e50b205b731cf8db7c17a7976b241378860e46699cb17590c1e6b4ea3a0a8b162bcb6b"));
+file_put_contents ("msg_takedown.msg", $msg->generateMessage ("367665924aec304d755e9af287e4dc3d6075cd0a5f4a78a00a5d8785a3d8ea5ef59e6a86d3b439ba075cce234c1ac326d4396d67aafeca8b29fdf07ee7f6bf04"));
